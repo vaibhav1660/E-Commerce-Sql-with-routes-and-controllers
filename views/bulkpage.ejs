@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        /* Style the container div */
+        .rob {
+          background-color: #f7f7f7;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          padding: 20px;
+          margin: 20px;
+          text-align: center;
+        }
+      
+        /* Style the heading */
+        h2 {
+          color: #333;
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+      
+        /* Style the form */
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+      
+        /* Style the file input */
+        input[type="file"] {
+          margin: 10px 0;
+        }
+      
+        /* Style the submit button */
+        input[type="submit"] {
+          background-color: #008CBA;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          font-size: 16px;
+          padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          width: 150px;
+          transition: background-color 0.3s ease;
+        }
+      
+        /* Style the submit button hover state */
+        input[type="submit"]:hover {
+          background-color: #006b8f;
+        }
+      </style>
+    <title>Document</title>
+</head>
+<body>
+    
+  <div>
+    <nav class="navbar navbar-expand-lg   bg-dark navbar-dark  fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><h6 style="color:rgb(255, 255, 255)">
+             <%= username %> 
+         </h6></a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="/changepassword">Change password</a>
+              <a class="nav-link" href="/home">Home</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              
+            </div>
+          </div>
+        </div>
+      </nav>
+
+     
+
+</div>
+
+
+
+    <div class="rob" style="margin-top: 80px;">
+        <h2>Add Product in Bulk</h2>
+        <form action="/import-csv" method="post" enctype="multipart/form-data">
+          <label for="csvfile">Select CSV file:</label>
+          <input type="file" name="csvfile" id="csvfile" accept=".csv">
+          <input type="submit" value="Upload">
+        </form>
+      </div>
+      
+</body>
+</html>

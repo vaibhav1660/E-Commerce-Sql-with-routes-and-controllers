@@ -1,0 +1,202 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <title>Document</title>
+    <% let total = 0 %>
+
+</head>
+
+<body>
+
+
+    <div>
+        <nav class="navbar navbar-expand-lg   bg-dark navbar-dark  fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><h6 style="color:rgb(255, 255, 255)">
+                 <%= username %> 
+             </h6></a>
+    
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <!-- <a class="nav-link active" aria-current="page" href="/changepassword">Change password</a> -->
+                  <a class="nav-link" href="/cart">My Cart</a>
+                  <a class="nav-link" href="/home">Home</a>
+                  <a class="nav-link" href="/logout">Logout</a>
+                  
+                </div>
+              </div>
+            </div>
+          </nav>
+    
+         
+    
+    </div>
+    
+
+
+
+
+
+
+
+
+    <div class="row" id="productContainer" style="margin-top: 100px;overflow-x: auto;">
+
+        <% cart.forEach((cartitem)=>{
+            
+            %>
+            <div class="col-sm-12 col-md-5 col-lg-3">
+                <div class="card" style="width: 18rem;margin-left: 40px;margin-bottom: 30px;padding: 3%;">
+
+
+
+
+
+                    <img src="<%=cartitem.image%>" class=" card-img-top img-fluid" alt="..." style="height: 200px;">
+                    <div class="card-body" id="<%=cartitem.product_id%>">
+                        <h5 class="card-title">
+                            <%=cartitem.name%>
+                        </h5>
+                        <p class="card-text">
+                            <%=cartitem.details%>
+                        </p>
+                        
+                        <p class="card-text quantity "><b>Quantity: </b>
+                            <%=cartitem.quantity[0]%>
+                        </p>
+                        <p class="card-text quantity "><b>Price: </b>
+                            <%=cartitem.price%>
+                        </p>
+                        <p class="card-text"><b>Total Price:</b>
+                            <%=cartitem.quantity[0]*cartitem.price%>
+                        </p>
+                        <% total += cartitem.quantity[0]*cartitem.price %>
+
+                    </div>
+                </div>
+            </div>
+            <%} ) %>
+
+            
+    </div>
+    <div >
+
+        <form  action="/getaddress" method="post">
+            <!-- <div class="row">
+                  <div class="col-md-6"> -->
+                      <div class="d-flex justify-content-center ">
+                          <h2>Confirm Your Address detail</h2>
+
+                      </div>
+                      <div class="row d-flex justify-content-center">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <input type="text" class="form-control" id="state" name="state" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="zip">Zip Code:</label>
+                        <input type="text" class="form-control" id="zip" name="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <center><input type="submit" class="btn btn-primary " value="Place Order <%= total %>"></center>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- <div><h1><LABel id="hereprice"><%= total %></LABel></h1></div>
+            <button id="rzp-button1">Pay with Razorpay </button> -->
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+       
+        </form>
+
+
+
+    </div>
+
+<script>
+    
+    document.getElementById('rzp-button1').onclick = async function(e){
+        e.preventDefault();
+    
+    let response=await fetch("http://localhost:3000/payment",{ //await
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            amount:500,
+        })
+    
+    })
+    let orderData=await response.json();
+    
+        var options = {
+            "key": "rzp_test_1rLEeNbKHL6UyZ", // Enter the Key ID generated from the Dashboard
+            "amount": document.getElementById("hereprice").textContent, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Acme Corp",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": orderData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                alert("jai hoooooo");
+                alert(response.razorpay_payment_id);
+                fetch('/placeorderform',{method:'get'})
+                .then(response=>response.text())
+                .then((data)=>{
+                    console.log(data)
+                })
+            }
+        
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+    
+    
+    
+        rzp1.open();
+    }
+
+
+    fetch('/cart',{method:'get'})
+    .then(()=>{
+        console.log('vaibhav jinda bad')
+    })
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous"
+      />
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            <nav class="navbar navbar-expand-lg   bg-dark navbar-dark  fixed-top">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#"><h6 style="color:rgb(255, 255, 255)">
+                     <%= username %> 
+                 </h6></a>
+        
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                      <a class="nav-link active" aria-current="page" href="/changepassword">Change password</a>
+                      <a class="nav-link" href="/home">Home</a>
+                      <a class="nav-link" href="/logout">Logout</a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </nav>
+        
+             
+        
+        </div>
+
+
+
+
+
+
+
+
+<div style="margin-top: 70px;" id="main">
+      
+        <%  
+            orders.forEach((orderitem)=>{
+                %>
+        <div class="row" style="height: 250px;border: 3px solid red; margin: 50px;border-radius: 30px;padding: 20px;">
+            <div class="col-3">  <img src="<%=orderitem.image%>" class=" card-img-top img-fluid" alt="..." style="height: 200px;"></div>
+            <div class="col-3"><p class="card-text quantity "><b>Quantity: </b><%=orderitem.Quantity%></p>
+            
+            </div>
+            <div class="col-3"><p class="card-text quantity "><b>Total price: </b> <%=orderitem.Quantity * orderitem.price%></p></div>
+            <div class="col-3">
+                <p class="card-text quantity "><b>Address: </b> <%=orderitem.Address%></p>
+                <p class="card-text quantity "><b>City: </b> <%=orderitem.city%></p>
+                <p class="card-text quantity "><b>State: </b> <%=orderitem.state%></p>
+                <p class="card-text quantity "><b>Zip: </b> <%=orderitem.zip%></p>
+            </div>
+        </div>
+
+
+        <%})%>
+</div>
+
+
+
+<script>
+
+
+
+if(document.getElementById("main").innerText.length<1){
+        document.getElementById("main").innerHTML="<h1>                   Your haven't ordered anything!! Please order Something....</h1>"
+        
+       };
+</script>
+
+
+
+
+
+</body>
+</html>

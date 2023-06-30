@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/eeb8707309.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>cart</title>
+    
+  </head>
+  <script></script>
+
+  <body>
+ 
+   <div>
+    <nav class="navbar navbar-expand-lg   bg-dark navbar-dark  fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><h6 style="color:rgb(255, 255, 255)">
+             <%= username %> 
+         </h6></a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="/changepassword">Change password</a>
+              <a class="nav-link" href="/home">Home</a>
+              <a class="nav-link" href="/logout">Logout</a>
+              
+            </div>
+          </div>
+        </div>
+      </nav>
+
+     
+
+</div>
+
+
+
+
+
+
+
+
+
+   <% var total = 0 %>
+    <div class="row"  id="productContainer" style="margin-top: 100px;overflow-x: auto;">
+     
+       <%   var isstock=0;
+            cart.forEach((cartitem)=>{
+                %>
+                    <div class="col-sm-12 col-md-5 col-lg-3">
+                        <div class="card" style="width: 18rem;margin-left: 40px;margin-bottom: 30px;padding: 3%;" >
+                             
+                        
+
+
+
+                            <img src="<%=cartitem.image%>" class=" card-img-top img-fluid" alt="..." style="height: 200px;">
+                            <div class="card-body" id="<%=cartitem.product_id%>" >
+                                <h5 class="card-title"><%=cartitem.name%></h5>
+                                <p class="card-text"><%=cartitem.details%></p>
+                                <% if(cartitem.quantity[1]===0){    isstock=1%>
+                                  <p class="card-text"><b>Out Of Stock</b></p>
+                               
+                                  <% }else{ %>
+
+                                   
+                                    <p class="card-text quantity "><b>Quantity: </b><%=cartitem.quantity[0]%></p>
+                                    <p class="card-text"><b>Price:</b><%=cartitem.price%></p>
+                                    <% total += cartitem.quantity[0] * cartitem.price %>
+                                    <button onclick="increment(`<%=cartitem.product_id%>`)">+</button>
+                
+                                    <button onclick="decrement(`<%=cartitem.product_id%>`)">-</button>
+                                  <% } %>
+                                <a href="/delete/<%=cartitem.product_id%>"  class="btn btn-primary delete ">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+           <%     
+            })
+       %>
+      
+    
+        </div>
+
+<%if (!isstock){%>
+        <div id= "main"; style="height: 130px; width:130px;border:4px solid gray;border-radius: 10px;position: fixed;right: 0;bottom: 0;text-align: center;margin: 20px;;" >
+          <h3 style="margin-bottom: 0px;">Total</h3>
+          <label style="font-size: 20px;margin-top: 1px;"><%= total %></label>
+          <!-- <button style="background-color: aquamarine;">PlaceOrder</button> -->
+          <a href="/placeorder">
+          <button type="submit" name="place-order" class="btn btn-primary">Place Order</button>
+</a>
+        </div>
+<%}%>
+        
+
+
+
+
+
+
+
+
+        <script>
+        
+
+
+
+
+  if(document.getElementById("productContainer").innerText.length<1){
+        document.getElementById("productContainer").innerHTML="<h1>.                   Your Cart Is EMPTY</h1>"
+        document.getElementById("main").style.display = "none";
+       };
+          function increment(id){
+            // console.log("increment ke liye poinit hit ho rha hai")
+           fetch(`/cart/increment/${id}`).then((res)=>{
+            return res.json()
+           })
+           .then((data)=>{
+            console.log(data)
+           var merahai =  document.getElementById(`${id}`).querySelector(".quantity").innerHTML
+              document.getElementById(`${id}`).querySelector(".quantity").innerHTML=`<b>Quantity:</b> ${data}`
+              if(merahai == `<b>Quantity:</b> ${data}`){
+                alert("You Cannot add more than Stock");
+              }
+           })
+           
+          
+          }
+          function decrement(id){
+
+           fetch(`/cart/decrement/${id}`).then((res)=>{
+            return res.json()
+           })
+           .then((data)=>{
+            console.log(data)
+            if(data<1){
+              document.getElementById(`${id}`).querySelector(".delete").click();
+               
+            }
+            document.getElementById(`${id}`).querySelector(".quantity").innerHTML=`<b>Quantity:</b>  ${data}`
+           })
+          
+          }
+        
+        </script>
+  </body>
+</html>
+ 

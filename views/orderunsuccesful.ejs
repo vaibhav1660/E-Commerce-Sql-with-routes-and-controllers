@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Order Unsuccessful</title>
+	<style>
+		body {
+			background-color: #f8f8f8;
+			font-family: 'Roboto', sans-serif;
+		}
+		
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+			font-size: 50px;
+			color: #222222;
+		}
+		
+		p {
+			text-align: center;
+			margin-top: 30px;
+			font-size: 24px;
+			color: #555555;
+			line-height: 1.5;
+		}
+		
+		.btn {
+			display: inline-block;
+			margin-top: 50px;
+			padding: 18px 40px;
+			border: none;
+			background-color: blue;
+			color: #ffffff;
+			font-size: 24px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			cursor: pointer;
+			transition: background-color 0.2s ease-in-out;
+		}
+		
+		.btn:hover {
+			background-color: blue;
+		}
+		
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 50px 20px;
+		}
+		
+		@media screen and (max-width: 640px) {
+			h1 {
+				font-size: 36px;
+			}
+			
+			p {
+				font-size: 20px;
+			}
+			
+			.btn {
+				padding: 16px 30px;
+				font-size: 20px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Oops! Something Went Wrong</h1>
+		<p>We're sorry, but there was an error processing your order.</p>
+		<p>Please try again later, or contact customer support for assistance.</p>
+		<a href="/home" class="btn">Back to Shopping</a>
+	</div>
+</body>
+</html>
